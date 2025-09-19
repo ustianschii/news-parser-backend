@@ -11,6 +11,8 @@ services:
       DATABASE_URL: "mongodb://admin:admin123@mongo:27017/mydatabase"
     depends_on:
       - mongo
+    volumes: 
+      - /app/node_modules
   mongo:
     image: mongo:6.0
     container_name: mongo
