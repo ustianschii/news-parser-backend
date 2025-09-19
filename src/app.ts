@@ -1,44 +1,43 @@
-import Fastify, { FastifyServerOptions } from "fastify";
 import AutoLoad from "@fastify/autoload";
+import Fastify, { type FastifyServerOptions } from "fastify";
 
 import { join } from "path";
-
-import { getFeedDataRoutes } from "./modules/feedParser/routes/feedParser.route";
 import configPlugin from "./config";
+import { getFeedDataRoutes } from "./modules/feedParser/routes/feedParser.route";
 
 type AppOptions = Partial<FastifyServerOptions>;
 
 async function buildApp(options: AppOptions = {}) {
-  const fastify = Fastify({ logger: true });
+	const fastify = Fastify({ logger: true });
 
-  await fastify.register(configPlugin);
+	await fastify.register(configPlugin);
 
-  try {
-    fastify.decorate("pluginLoaded", (pluginName: string) => {
-      fastify.log.info(`Plugin loaded: ${pluginName}`);
-    });
+	try {
+		fastify.decorate("pluginLoaded", (pluginName: string) => {
+			fastify.log.info(`Plugin loaded: ${pluginName}`);
+		});
 
-    fastify.log.info("Starting to load plugins");
+		fastify.log.info("Starting to load plugins");
 
-    await fastify.register(AutoLoad, {
-      dir: join(__dirname, "plugins"),
-      options: options,
-      ignorePattern: /^((?!plugin).)*$/,
-    });
+		await fastify.register(AutoLoad, {
+			dir: join(__dirname, "plugins"),
+			options: options,
+			ignorePattern: /^((?!plugin).)*$/,
+		});
 
-    fastify.log.info("Plugins loaded successfully");
-  } catch (error) {
-    fastify.log.error("Error in autoload:", error);
-    throw error;
-  }
+		fastify.log.info("Plugins loaded successfully");
+	} catch (error) {
+		fastify.log.error("Error in autoload:", error);
+		throw error;
+	}
 
-  fastify.get("/", async (request, reply) => {
-    return { hello: "world!" };
-  });
+	fastify.get("/", async (request, reply) => {
+		return { hello: "world!" };
+	});
 
-  fastify.register(getFeedDataRoutes);
+	fastify.register(getFeedDataRoutes);
 
-  return fastify;
+	return fastify;
 }
 
 export default buildApp;
