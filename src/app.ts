@@ -35,7 +35,11 @@ async function buildApp(options: AppOptions = {}) {
 		return { hello: "world!" };
 	});
 
-	fastify.register(getFeedDataRoutes);
+	fastify.register(AutoLoad, {
+    dir: join(__dirname, "modules"),
+    matchFilter: (path) => path.includes("routes") && /\.(ts|js)$/.test(path),
+    dirNameRoutePrefix: false, 
+  });
 
 	return fastify;
 }
