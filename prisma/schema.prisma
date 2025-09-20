@@ -14,4 +14,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
+model Post {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  title    String
+  body     String
+  heroImage String?
+}
