@@ -20,3 +20,10 @@ model Post {
   body     String
   heroImage String?
 }
+
+model Feed {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  url       String
+  items     String
+  createdAt DateTime @default(now())
+}
