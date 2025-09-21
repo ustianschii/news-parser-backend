@@ -19,21 +19,18 @@ async function buildApp(options: AppOptions = {}) {
 
 		fastify.log.info("Starting to load plugins");
 
-		await fastify.register(AutoLoad, {
-			dir: join(__dirname, "plugins"),
-			options: options,
-			ignorePattern: /^((?!plugin).)*$/,
-		});
+		fastify.register(AutoLoad, {
+    dir: join(__dirname, "modules"),
+    matchFilter: (path) =>
+  /routes\/.*\.route\.(ts|js)$/.test(path.replace(/\\/g, "/")),
+    dirNameRoutePrefix: false, 
+  });
 
 		fastify.log.info("Plugins loaded successfully");
 	} catch (error) {
 		fastify.log.error("Error in autoload:", error);
 		throw error;
 	}
-
-	fastify.get("/", async (request, reply) => {
-		return { hello: "world!" };
-	});
 
 	fastify.register(getFeedDataRoutes);
 

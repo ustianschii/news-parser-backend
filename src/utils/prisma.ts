@@ -1,17 +1,16 @@
-import { PrismaClient } from "../../generated/prisma"
+import buildApp from "../app"; 
 
-const prisma = new PrismaClient()
 
 async function main() {
+  const app = await buildApp({});
+
+
+  try {
+  
+  } catch (error) {
+    app.log.error("Prisma operation error:", error);
+  }
 
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+main();

@@ -1,18 +1,32 @@
-import type { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";
-import type { FastifyInstance } from "fastify";
+import { FastifyInstance } from "fastify";
+import { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";
+import { fetchFeed } from "../services/feedParser.service";
 
-import { schema } from "../schemas/getFeedData.schema";
+const DEFAULT_URL = "https://feeds.feedburner.com/itcua"
+
+const feedQuerySchema = {
+  type: "object",
+  properties: {
+    url: { type: "string" },
+    force: { type: "string", enum: ["0", "1"] },
+  },
+  additionalProperties: false,
+} as const;
 
 export async function getFeedDataRoutes(fastify: FastifyInstance) {
-	const route = fastify.withTypeProvider<JsonSchemaToTsProvider>();
+  const app = fastify.withTypeProvider<JsonSchemaToTsProvider>();
 
-	route.get(
-		"/feed",
-		{
-			schema: schema,
-		},
-		async (request, reply) => {
-			reply.send({ hello: "feed" });
-		},
-	);
+  app.get(
+    "/feed",
+    {
+      schema: {
+        querystring: feedQuerySchema,
+      },
+    },
+    async (request, reply) => {
+      const { url, force } = request.query; 
+      const result = await fetchFeed(url ?? DEFAULT_URL, force === "1");
+      return reply.send(result);
+    }
+  );
 }

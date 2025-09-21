@@ -82,4 +82,4 @@ build/Release
 /build
 /out
 /lib
-/src/generated/prisma
+/prisma/generated

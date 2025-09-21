@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  output   = "./generated/prisma"
 }
 
 datasource db {
@@ -19,4 +19,11 @@ model Post {
   title    String
   body     String
   heroImage String?
+}
+
+model Feed {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  url       String   @unique
+  items     String
+  createdAt DateTime @default(now())
 }

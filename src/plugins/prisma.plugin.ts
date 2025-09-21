@@ -1,22 +1,38 @@
 import fp from "fastify-plugin";
 import type { FastifyInstance } from "fastify";
-import { PrismaClient } from "@prisma/client";
+
+import { PrismaClient } from "../../prisma/generated/prisma"; 
+
 
 const pluginName = "prisma-plugin";
 
 export default fp(
   async (fastify: FastifyInstance) => {
-    const prisma = new PrismaClient();
 
-    await prisma.$connect();
+    let prisma: PrismaClient;
 
-    fastify.decorate("prisma", prisma);
+    try {
+      prisma = new PrismaClient();
+      await prisma.$connect();
 
-    fastify.addHook("onClose", async (app) => {
-      await app.prisma.$disconnect();
-    });
+      fastify.decorate("prisma", prisma);
 
-    fastify.pluginLoaded(pluginName);
+      fastify.addHook("onClose", async (fastify) => {
+        try {
+          await fastify.prisma.$disconnect();
+          fastify.log.info("Prisma disconnected successfully");
+        } catch (err) {
+          fastify.log.error("Error disconnecting Prisma:", err);
+        }
+      });
+
+      fastify.log.info("Prisma connected successfully");
+      fastify.pluginLoaded(pluginName);
+    } catch (err) {
+      fastify.log.error("Error connecting Prisma:", err);
+      throw err; 
+    }
+
   },
   {
     name: pluginName,
