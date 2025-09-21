@@ -1,33 +1,30 @@
 version: "3.9"
 
 services:
-  app:
-    build: .
-    container_name: fastify-app
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    environment:
-      PORT: 3000
-      HOST: 0.0.0.0
-      DATABASE_URL: "mongodb://admin:admin123@mongo:27017/mydatabase?authSource=admin"
-    depends_on:
-      - mongo
-    volumes: 
-      - .:/app
-      - /app/node_modules
+  # app:
+  #   build: .
+  #   container_name: fastify-app
+  #   restart: unless-stopped
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     PORT: 3000
+  #     HOST: 0.0.0.0
+  #     DATABASE_URL: "mongodb://admin:admin123@mongo:27017/mydatabase?authSource=admin"
+  #   depends_on:
+  #     - mongo
+  #   volumes: 
+  #     - .:/app
+  #     - /app/node_modules
 
   mongo:
-    image: mongo:6.0
-    command: ["--replSet", "rs0", "--bind_ip_all"]
-    container_name: mongo
-    restart: unless-stopped
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_DATABASE: mydatabase
-    volumes:
+      image: mongo:6.0
+      container_name: mongo
+      restart: unless-stopped
+      volumes:
       - mongo_data:/data/db
+      ports:
+      - "27017:27017"
 
 volumes:
   mongo_data:
