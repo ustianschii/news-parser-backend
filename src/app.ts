@@ -31,13 +31,10 @@ async function buildApp(options: AppOptions = {}) {
 		throw error;
 	}
 
-	fastify.get("/", async (request, reply) => {
-		return { hello: "world!" };
-	});
-
 	fastify.register(AutoLoad, {
     dir: join(__dirname, "modules"),
-    matchFilter: (path) => path.includes("routes") && /\.(ts|js)$/.test(path),
+    matchFilter: (path) =>
+  /routes\/.*\.route\.(ts|js)$/.test(path.replace(/\\/g, "/")),
     dirNameRoutePrefix: false, 
   });
 
