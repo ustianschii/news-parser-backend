@@ -2899,13 +2899,13 @@ export namespace Prisma {
 
   export type FeedWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    url?: string
     AND?: FeedWhereInput | FeedWhereInput[]
     OR?: FeedWhereInput[]
     NOT?: FeedWhereInput | FeedWhereInput[]
-    url?: StringFilter<"Feed"> | string
     items?: StringFilter<"Feed"> | string
     createdAt?: DateTimeFilter<"Feed"> | Date | string
-  }, "id">
+  }, "id" | "url">
 
   export type FeedOrderByWithAggregationInput = {
     id?: SortOrder

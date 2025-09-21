@@ -1,27 +1,14 @@
-import { PrismaClient } from "../../generated/prisma"
+import buildApp from "../app"; 
 
-const prisma = new PrismaClient()
 
 async function main() {
+  const app = await buildApp({});
 
-   const newPost = await prisma.post.create({
-        data: {
-            title: "My first post",
-            body: "Hello, Prisma + MongoDB!"
-        }
-    })
-    console.log("Created:", newPost)
-    
-  const allPosts = await prisma.post.findMany()
-  console.log(allPosts)
+  try {
+  
+  } catch (error) {
+    app.log.error("Prisma operation error:", error);
+  }
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+main();

@@ -162,8 +162,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mongodb\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Post {\n  id        String  @id @default(auto()) @map(\"_id\") @db.ObjectId\n  title     String\n  body      String\n  heroImage String?\n}\n\nmodel Feed {\n  id        String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  url       String\n  items     String\n  createdAt DateTime @default(now())\n}\n",
-  "inlineSchemaHash": "f3d68862c5739c2814a3e39f75c384950944ce2e232746515b0a6611ecb765a5",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mongodb\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Post {\n  id        String  @id @default(auto()) @map(\"_id\") @db.ObjectId\n  title     String\n  body      String\n  heroImage String?\n}\n\nmodel Feed {\n  id        String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  url       String   @unique\n  items     String\n  createdAt DateTime @default(now())\n}\n",
+  "inlineSchemaHash": "13817eb29b8fd5479155b767507e71e8ebbc1e6d9ced53dfeceb7b7eaef667cd",
   "copyEngine": true
 }
 config.dirname = '/'
