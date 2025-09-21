@@ -4,16 +4,6 @@ const prisma = new PrismaClient()
 
 async function main() {
 
-   const newPost = await prisma.post.create({
-        data: {
-            title: "My first post",
-            body: "Hello, Prisma + MongoDB!"
-        }
-    })
-    console.log("Created:", newPost)
-    
-  const allPosts = await prisma.post.findMany()
-  console.log(allPosts)
 }
 
 main()
