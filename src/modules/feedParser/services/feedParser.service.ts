@@ -1,7 +1,7 @@
 import { parseFeed } from "./rss.service";
 import { getFeedFromDB, saveFeedToDB } from "../../../services/feedService";
+import { DEFAULT_FEED_URL } from "../../../constants";
 
-const DEFAULT_FEED_URL = "https://feeds.feedburner.com/itcua";
 
 export async function fetchFeed(url?: string, force?: boolean) {
   const feedUrl = url || DEFAULT_FEED_URL;
