@@ -8,18 +8,24 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: "mongodb://admin:admin123@mongo:27017/mydatabase"
+      PORT: 3000
+      HOST: 0.0.0.0
+      DATABASE_URL: "mongodb://admin:admin123@mongo:27017/mydatabase?authSource=admin"
     depends_on:
       - mongo
+    volumes: 
+      - .:/app
+      - /app/node_modules
+
   mongo:
     image: mongo:6.0
+    command: ["--replSet", "rs0", "--bind_ip_all"]
     container_name: mongo
     restart: unless-stopped
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: mydatabase
     volumes:
       - mongo_data:/data/db
 
