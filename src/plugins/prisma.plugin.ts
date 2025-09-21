@@ -3,10 +3,12 @@ import type { FastifyInstance } from "fastify";
 
 import { PrismaClient } from "../../prisma/generated/prisma"; 
 
+
 const pluginName = "prisma-plugin";
 
 export default fp(
   async (fastify: FastifyInstance) => {
+
     let prisma: PrismaClient;
 
     try {
@@ -30,6 +32,7 @@ export default fp(
       fastify.log.error("Error connecting Prisma:", err);
       throw err; 
     }
+
   },
   {
     name: pluginName,
